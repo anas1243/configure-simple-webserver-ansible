@@ -1,0 +1,33 @@
+---
+- name: Configure iti webserver on an EC2
+  hosts: webServers
+  vars_files:
+    - vars/vars.yml
+  tasks:
+    - name: Updata cache and install nginx
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: true
+
+    - name: Enable service nginx, and not touch the state
+      ansible.builtin.service:
+        name: nginx
+        enabled: true
+        state: started
+
+    - name: Copy ITI website to /var/www/html/index.html
+      ansible.builtin.template:
+        src: webSite/index.html
+        dest: /var/www/html/index.html
+        mode: "0644"
+        owner: ubuntu
+        group: ubuntu
+
+    - name: Copy style file and set owner and permissions
+      ansible.builtin.copy:
+        src: webSite/css
+        dest: /var/www/html/
+        owner: ubuntu
+        group: ubuntu
+        mode: "0644"
