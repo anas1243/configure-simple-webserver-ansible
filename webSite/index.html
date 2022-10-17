@@ -9,5 +9,12 @@
   </head>
   <body>
     <h1>Hello {{ user }} from iti</h1>
+    <h2>
+      Private IP: {{
+      hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
+    </h2>
+    <h2>
+      Private HostName: {{ hostvars[inventory_hostname]['ansible_fqdn'] }}
+    </h2>
   </body>
 </html>
